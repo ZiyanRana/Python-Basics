@@ -1,9 +1,23 @@
 print("🎓 Student Grade Manager 🎓")
 
 name = input("\nEnter the student's name: ")
-subjectsNum = int(input("Enter the number of subjects student is enrolled in: "))
+while(True):
+    try:
+        subjectsNum = int(input("Enter the number of subjects student is enrolled in: "))
+        break
+    except:
+        print("Invalid input, enter a number.")
+while(True):
+    try:
+        x = int(input("Enter the total marks of each subject: "))
+        if 100>=x>=0:
+            totalMarks = x
+            break
+        else:
+            print("Invalid, enter a number from 0-100")
+    except:
+        print("Invalid input, enter a number.")
 
-totalMarks = int(input("Enter the total marks of each subject: "))
 overallTotalMarks = subjectsNum*totalMarks
 
 subjects = []
@@ -13,12 +27,16 @@ for i in range(0, subjectsNum):
     subjects.append(input(f"Enter the name of subject {i+1}: "))
     
     while True:
-        mark = int(input(f"Enter the marks obtained in {subjects[i]}: "))
-        if mark>=0 and mark<=totalMarks:
-            marks.append(mark)
-            break
-        else:
-            print(f"⚠️ Invalid input! Marks must be between 0 and {totalMarks}. Try again.")
+        try:
+            mark = int(input(f"Enter the marks obtained in {subjects[i]}: "))
+            if mark>=0 and mark<=totalMarks:
+                marks.append(mark)
+                break
+            else:
+                print(f"Invalid input! Marks must be between 0 and {totalMarks}. Try again.")
+        except:
+            print("Invalid input, enter a number.")
+        
 
 totalObtainedMarks = sum(marks)
 percentage = (totalObtainedMarks/overallTotalMarks)*100
