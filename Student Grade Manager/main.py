@@ -2,6 +2,9 @@
 def printTitle():
     print("🎓 Student Grade Manager 🎓")
 
+def printMenu():
+    print("\n1. Add student\n2. View all students\n3. View single student's result\n4. Show high-achievers' result\n5. Show class average\n6. Delete student\n7. Exit")
+
 def getSubjectsNum():
     while True:
         try:
@@ -72,19 +75,61 @@ def printResults(name, subjects, marks, totalObtainedMarks, overallTotalMarks, p
     print(f"Grade                : {grade}")
 
 # MAIN PROGRAM:
+
+students = []
+totalMarks = None
 printTitle()
 
-name = input("\nEnter the student's name: ")
-subjectsNum = getSubjectsNum()
-totalMarks = getTotalMarks()
+while(True):
+    printMenu()
+    while(True):
+        try:
+            option = int(input("\nEnter your choice (1-7): "))
+            if option < 1 or option > 7:
+                print("Invalid input, enter from 1-7.")
+                continue
+            break       
+        except ValueError:
+            print("Invalid input, enter from 1-7.")
+    if option == 1:
+        name = input("\nEnter the student's name: ")
+        subjectsNum = getSubjectsNum()
+        if totalMarks == None:
+            totalMarks = getTotalMarks()
 
-overallTotalMarks = subjectsNum * totalMarks
+        overallTotalMarks = subjectsNum * totalMarks
 
-subjects, marks = getLists(subjectsNum, totalMarks)
+        subjects, marks = getLists(subjectsNum, totalMarks)
 
-totalObtainedMarks = sum(marks)
-percentage = (totalObtainedMarks / overallTotalMarks) * 100
+        totalObtainedMarks = sum(marks)
+        percentage = (totalObtainedMarks / overallTotalMarks) * 100
 
-grade = findGrade(percentage)
+        grade = findGrade(percentage)
 
-printResults(name, subjects, marks, totalObtainedMarks, overallTotalMarks, percentage, grade)
+        student = {
+        "name": name,
+        "subjects": subjects,
+        "marks": marks,
+        "total": totalObtainedMarks,
+        "percentage": percentage,
+        "grade": grade
+        }
+
+        students.append(student)
+        print("Student added successfully!")
+    
+    elif option == 2:
+        print("\n-------------------------------")
+        print("      📋 STUDENTS LIST📋")
+        print("-------------------------------\n")
+        if len(students) == 0:
+            print("No students added yet.")
+        else:
+            for i, student in enumerate(students, start=1):
+                print(f"{i}. {student['name']}")
+
+    elif option == 3:
+        printResults(name, subjects, marks, totalObtainedMarks, overallTotalMarks, percentage, grade)
+
+    elif option == 7:
+        break
